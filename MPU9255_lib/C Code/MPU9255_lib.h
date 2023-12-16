@@ -137,38 +137,27 @@ typedef struct MPU9255_data_s{
 	float gZ;
 
 	float temp;
+
+	float pitch;
+	float roll;
 }MPU9255_data_e;
-
-typedef struct MPU9255_rawData_s{
-	int16_t aX;
-	int16_t aY;
-	int16_t aZ;
-
-	int16_t gX;
-	int16_t gY;
-	int16_t gZ;
-
-	float temp;
-}MPU9255_rawData_e;
 
 /********************
 * 	  FUNCTIONS 	*
 ********************/
 void MPU9255_Init(MPU9255_init_e *mpu9255_init_s);
 HAL_StatusTypeDef MPU9255_WhoAmI();
-void MPU9255_RawReadAllData(MPU9255_rawData_e *mpu9255_raw);
-void MPU9255_RawReadAccData(MPU9255_data_e *mpu9255_raw);
-void MPU9255_RawReadGyroData(MPU9255_data_e *mpu9255_raw);
-void MPU9255_RawReadTempData(MPU9255_data_e *mpu9255_raw);
+void MPU9255_RawReadAllData(int16_t *all_array_raw);
+void MPU9255_RawReadAccData(int16_t *acc_array_raw);
+void MPU9255_RawReadGyroData(int16_t *gyro_array_raw);
+void MPU9255_RawReadTempData(int16_t *temp_raw);
 void MPU9255_ReadAllData(MPU9255_data_e *MPU9255_data_s);
 void MPU9255_ReadAccel(MPU9255_data_e *MPU9255_data_s);
 void MPU9255_ReadGyro(MPU9255_data_e *MPU9255_data_s);
 void MPU9255_ReadTemp(MPU9255_data_e *MPU9255_data_s);
 void MPU9255_OffSetValues();
-float MPU9255_PitchAngle(MPU9255_data_e *MPU9255_data_s);
-float MPU9255_RollAngle(MPU9255_data_e *MPU9255_data_s);
-float low_pass_filter(float x, float xP);
-void MPU9255_Calibration(MPU9255_data_e *MPU9255_s, MPU9255_rawData_e *MPU922_raw_s, float aLSB, float gLSB);
+void MPU9255_Angle(MPU9255_data_e *imu);
+void low_pass_filter(MPU9255_data_e *imu);
 
 float map(float x, float in_min, float in_max, float out_min, float out_max);
 #endif /* INC_MPU9255_LIB_H_ */
