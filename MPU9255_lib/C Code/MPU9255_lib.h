@@ -17,6 +17,10 @@
 #ifndef INC_MPU9255_LIB_H_
 #define INC_MPU9255_LIB_H_
 
+#define PI		3.141592
+#define RTD		180/PI
+#define DTR		PI/180
+
 #define MPU9255_I2C_ADDR_W 	0xD0
 #define MPU9255_I2C_ADDR_R 	0xD0
 
@@ -156,7 +160,9 @@ void MPU9255_ReadAccel(MPU9255_data_e *MPU9255_data_s);
 void MPU9255_ReadGyro(MPU9255_data_e *MPU9255_data_s);
 void MPU9255_ReadTemp(MPU9255_data_e *MPU9255_data_s);
 void MPU9255_OffSetValues();
-void MPU9255_Angle(MPU9255_data_e *imu);
+void MPU9255_ACC_ANGLE(MPU9255_data_e *imu, float *a_pitch, float *a_roll);
+void MPU9255_GYRO_ANGLE(MPU9255_data_e *imu, float *g_pitch, float *g_roll);
+void MPU9255_ANGLE(MPU9255_data_e *imu, float g_pitch, float g_roll, float a_pitch, float a_roll);
 void low_pass_filter(MPU9255_data_e *imu);
 
 float map(float x, float in_min, float in_max, float out_min, float out_max);
