@@ -9,7 +9,7 @@
 #define INC_BMP280_H_
 
 #include "stdint.h"
-#include "stm32f1xx_hal.h"
+#include "main.h"
 
 #define BMP280_ADDR_W 0x76<<1 //EC
 #define BMP280_ADDR_R (0x76<<1) | 0x01 //ED
@@ -19,7 +19,6 @@
 The “id” register contains the chip identification number chip_id[7:0], which is 0x58. This number can
 be read as soon as the device finished the power-on-reset.
 */
-
 
 #define BMP280_TEMP_XLSB 0xFC // read only
 #define BMP280_TEMP_LSB 0xFB // read only
@@ -56,9 +55,12 @@ no effect. The readout value is always 0x00.
  *****************/
 
 typedef enum{
-	OK = 0x00,
-	ER = 0x01
-}BMP280_status;
+	bmpOkey,
+	bmpErrorR,
+	bmpErrorW,
+	bmpErrorID,
+	bmpErrorC
+}bmpStatus;
 
 typedef enum{
 	pressureOversampling_X1 = 0x01,
@@ -128,15 +130,15 @@ typedef struct{
  ****** FUNC *****
  *****************/
 
-static void BMP280_I2C_read(uint16_t addr, uint8_t *data, uint8_t size);
-static void BMP280_I2C_write(uint16_t addr, uint8_t data, uint8_t size);
+static bmpStatus BMP280_I2C_read(uint16_t addr, uint8_t *data, uint8_t size);
+static bmpStatus BMP280_I2C_write(uint16_t addr, uint8_t *data, uint8_t size);
 
-uint16_t BMP280_I2C_isDeviceReady();
-BMP280_status BMP280_checkId();
+bmpStatus BMP280_I2C_isDeviceReady();
+bmpStatus BMP280_checkId();
 static void trimRead();
-void BMP280_setConfig(BMP280_config bmp);
+bmpStatus BMP280_setConfig(BMP280_config bmp);
 
-void BMP280_readAllDatas(BMP280_datas *p);
+bmpStatus BMP280_readAllDatas(BMP280_datas *p);
 
 static double BMP280_compensate_T_int32(int32_t adc_T);
 static double BMP280_compensate_P_int64(int32_t adc_P);

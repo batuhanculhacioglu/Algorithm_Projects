@@ -1,13 +1,14 @@
 #include "BMP280.h"
 
-  BMP280_config bmpC;
-  bmpC.i2c = hi2c1;
-  bmpC.id = 0x76<<1;
-  bmpC.pM = normalMode;
-  bmpC.pO = pressureOversampling_X16;
-  bmpC.tO = temperatureOversampling_X16;
-  bmpC.IIRF = filter_16;
-  BMP280_setConfig(bmpC);
+  BMP280_config bmpCnfg;
+  bmpCnfg.i2c = hi2c1;
+  bmpCnfg.id = BMP280_ADDR_W;
+  bmpCnfg.IIRF = filter_off;
+  bmpCnfg.pM = normalMode;
+  bmpCnfg.pO = pressureOversampling_X16;
+  bmpCnfg.tO = temperatureOversampling_X16;
+  BMP280_setConfig(bmpCnfg);
+
   BMP280_datas bmp;
   double temp = 0, press = 0;
   
